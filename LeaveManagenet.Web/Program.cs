@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()/*esta permite q reconosca los roles*/
     .AddEntityFrameworkStores<ApplicationDbContext>();
 // recordar q en Views/Shared/_LoginPartial esta xdefault "SignInManager<IdentityUser>" y aca
 // cambiamos a <Employee>, asi q hay q cambiar alla tb

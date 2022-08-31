@@ -28,7 +28,7 @@ namespace LeaveManagenet.Web.Repositories
             context.Set<T>().Remove(entity);
             await context.SaveChangesAsync();
         }
-
+        
         public async Task<bool> Exist(int id)
         {
             var entity = await GetAsync(id);
