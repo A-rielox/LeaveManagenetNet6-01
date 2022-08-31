@@ -1,5 +1,7 @@
 using LeaveManagenet.Web.Configurations;
+using LeaveManagenet.Web.Contracts;
 using LeaveManagenet.Web.Data;
+using LeaveManagenet.Web.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +18,10 @@ builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireC
     .AddEntityFrameworkStores<ApplicationDbContext>();
 // recordar q en Views/Shared/_LoginPartial esta xdefault "SignInManager<IdentityUser>" y aca
 // cambiamos a <Employee>, asi q hay q cambiar alla tb
+
+// cuando inyecte un ILeaveTypeRepository va a ocupar LeaveTypeRepository
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
