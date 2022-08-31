@@ -1,0 +1,80 @@
+﻿@model IEnumerable<LeaveTypeVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DefaultDays)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DefaultDays)
+                </td>
+
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </a> 
+
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">
+                        <i class="fa-solid fa-circle-info"></i> Details
+                    </a> 
+                    
+                    <button data-id="@item.Id" type="button" class="btn btn-danger deleteBtn">
+                        <i class="fa-solid fa-skull-crossbones"></i> Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form id="deleteForm" asp-action="Delete">
+        <input type="hidden" id="leaveTypeId" name="Id" />
+        @* el "name="Id" es lo q hace q al hacer submit este se pase al Id del modelo" *@
+</form>
+
+@section Scripts{
+    <script>
+        $(function(){
+            $('.table').DataTable();
+
+            $('.deleteBtn').click(function(e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to delete this record?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm) => {
+                        if(confirm){
+                            var btn = $(this);
+                            var id = btn.data("id"); 
+                            $('#leaveTypeId').val(id); // pone el valor del input con la id
+                            $('#deleteForm').submit();
+                        }
+                    });
+            });
+        });
+    </script>
+}

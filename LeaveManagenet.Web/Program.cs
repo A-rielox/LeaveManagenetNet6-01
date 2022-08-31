@@ -1,3 +1,4 @@
+using LeaveManagenet.Web.Configurations;
 using LeaveManagenet.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+// recordar q en Views/Shared/_LoginPartial esta xdefault "SignInManager<IdentityUser>" y aca
+// cambiamos a <Employee>, asi q hay q cambiar alla tb
+
+builder.Services.AddAutoMapper(typeof(MapperConfig));
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -42,3 +49,13 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+/*
+ * Las areas son las distintas partes dentro de la aplicacion
+ * xejemplo, la admin-section y user-section, y se les puede poner diferentes layouts
+ * o comportamientos
+ */
+
+/*
+ *
+ */
