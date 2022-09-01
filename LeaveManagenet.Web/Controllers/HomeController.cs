@@ -1,4 +1,5 @@
 ﻿using LeaveManagenet.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -18,6 +19,7 @@ namespace LeaveManagenet.Web.Controllers
             return View();
         }
 
+        [Authorize] // requiere estar autenticado ( logeado ) para poder verlo
         public IActionResult Privacy()
         {
             return View();

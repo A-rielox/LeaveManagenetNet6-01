@@ -9,9 +9,12 @@ using LeaveManagenet.Web.Data;
 using AutoMapper;
 using LeaveManagenet.Web.Models;
 using LeaveManagenet.Web.Contracts;
+using Microsoft.AspNetCore.Authorization;
+using LeaveManagenet.Web.Constants;
 
 namespace LeaveManagenet.Web.Controllers
 {
+    [Authorize(Roles = Roles.Administrator)] // requiere estar autenticado ( logeado ) y ser "Admin" para poder acceder
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeRepository leaveTypeRepository;

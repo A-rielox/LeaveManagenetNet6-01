@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using LeaveManagenet.Web.Constants
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,18 +38,21 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="" asp-action="">My Leave</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Leave Management
-                          </a>
+                        @if (User.IsInRole(Roles.Administrator)) @* solo admin puede ver el menu *@
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Leave Management
+                                </a>
 
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a></li>
-                            <li><a class="dropdown-item" href="#">Leave Allocations</a></li>
-                            <li><a class="dropdown-item" href="#">Leave Request</a></li>
-                            <li><a class="dropdown-item" href="#">Employee Management</a></li>
-                          </ul>
-                        </li>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a></li>
+                                    <li><a class="dropdown-item" href="#">Leave Allocations</a></li>
+                                    <li><a class="dropdown-item" href="#">Leave Request</a></li>
+                                    <li><a class="dropdown-item" href="#">Employee Management</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using LeaveManagenet.Web.Constants;
 
 namespace LeaveManagenet.Web.Areas.Identity.Pages.Account
 {
@@ -70,11 +71,11 @@ namespace LeaveManagenet.Web.Areas.Identity.Pages.Account
 
             [DataType(DataType.Date)]
             [Display(Name = "Date Of Birth")]
-            public DateTime DateOfBirth { get; set; }
+            public DateTime? DateOfBirth { get; set; }
 
             [DataType(DataType.Date)]
             [Display(Name = "Date Joined")]
-            public DateTime DateJoined { get; set; }
+            public DateTime? DateJoined { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -107,14 +108,17 @@ namespace LeaveManagenet.Web.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
-                user.DateJoined = Input.DateJoined;
-                user.DateOfBirth = Input.DateOfBirth;
+                user.DateJoined = Input.DateJoined ?? default; // --> xq lo hice nullable
+                user.DateOfBirth = Input.DateOfBirth ?? default; // --> xq lo hice nullable
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // dandole Role default
+                    await _userManager.AddToRoleAsync(user, Roles.User);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
