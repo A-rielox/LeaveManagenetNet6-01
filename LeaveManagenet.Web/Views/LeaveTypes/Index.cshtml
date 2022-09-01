@@ -32,6 +32,10 @@
                 </td>
 
                 <td>
+                    <button data-id="@item.Id" type="button" class="btn btn-primary allocateBtn">
+                        Allocate Leave
+                    </button>
+
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">
                         <i class="fa-solid fa-pen-to-square"></i> Edit
                     </a> 
@@ -51,7 +55,11 @@
 
 <form id="deleteForm" asp-action="Delete">
         <input type="hidden" id="leaveTypeId" name="Id" />
-        @* el "name="Id" es lo q hace q al hacer submit este se pase al Id del modelo" *@
+        @* con "name="Id" => el controller de Delete espera un parametro ...(int id) *@
+</form>
+
+<form id="allocationForm" asp-action="AllocateLeave">
+        <input type="hidden" id="leaveTypeIdAllocate" name="Id" />
 </form>
 
 @section Scripts{
@@ -72,6 +80,23 @@
                             var id = btn.data("id"); 
                             $('#leaveTypeId').val(id); // pone el valor del input con la id
                             $('#deleteForm').submit();
+                        }
+                    });
+            });
+
+            $('.allocateBtn').click(function(e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to allocate this leave to all employees?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm) => {
+                        if(confirm){
+                            var btn = $(this);
+                            var id = btn.data("id"); 
+                            $('#leaveTypeIdAllocate').val(id);
+                            $('#allocationForm').submit();
                         }
                     });
             });

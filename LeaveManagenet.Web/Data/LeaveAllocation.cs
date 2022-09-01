@@ -8,5 +8,6 @@
         public LeaveType LeaveType { get; set; } //--> para FK
 
         public string EmployeeId { get; set; }
+        public int Period { get; set; }
     }
 }
