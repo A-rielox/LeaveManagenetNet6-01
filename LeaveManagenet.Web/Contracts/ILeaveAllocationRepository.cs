@@ -1,4 +1,5 @@
 ﻿using LeaveManagenet.Web.Data;
+using LeaveManagenet.Web.Models;
 
 namespace LeaveManagenet.Web.Contracts
 {
@@ -6,5 +7,7 @@ namespace LeaveManagenet.Web.Contracts
     {
         Task LeaveAllocation(int leaveTypeId);
         Task<bool> AllocationExist(string employeeId, int leaveTypeId, int period);
+        Task<EmployeeAllocationVM> GetEmployeeAllocations(string employeeId);
+        Task<LeaveAllocationEditVM> GetEmployeeAllocation(int id);
     }
 }
