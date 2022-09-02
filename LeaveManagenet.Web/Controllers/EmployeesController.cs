@@ -14,14 +14,17 @@ namespace LeaveManagenet.Web.Controllers
         private readonly UserManager<Employee> userManager;
         private readonly IMapper mapper;
         private readonly ILeaveAllocationRepository leaveAllocationRepository;
+        private readonly ILeaveTypeRepository leaveTypeRepository;
 
         public EmployeesController(UserManager<Employee> userManager,
                                     IMapper mapper,
-                                    ILeaveAllocationRepository leaveAllocationRepository)
+                                    ILeaveAllocationRepository leaveAllocationRepository,
+                                    ILeaveTypeRepository leaveTypeRepository)
         {
             this.userManager = userManager;
             this.mapper = mapper;
             this.leaveAllocationRepository = leaveAllocationRepository;
+            this.leaveTypeRepository = leaveTypeRepository;
         }
 
 
@@ -43,29 +46,6 @@ namespace LeaveManagenet.Web.Controllers
         }
 
         //
-        // GET: EmployeesController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
-        // POST: EmployeesController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
         // GET: EmployeesController/EditAllocation/5
         public async Task<IActionResult> EditAllocation(int id)
         { // (int id) de leaveAllocation
@@ -81,36 +61,29 @@ namespace LeaveManagenet.Web.Controllers
         // POST: EmployeesController/EditAllocation/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAllocation(int id, IFormCollection collection)
-        {
-            var leaveAllocation = await leaveAllocationRepository.GetAsync(id);
-            if (leaveAllocation == null)
-                return NotFound();
-
-            var leaveTypeVM = mapper.Map<LeaveAllocationVM>(leaveAllocation);
-
-            return View(leaveTypeVM);
-        }
-
-        // GET: EmployeesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: EmployeesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> EditAllocation(int id, LeaveAllocationEditVM model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    if (await leaveAllocationRepository.UpdateEmployeeAllocation(model))
+                    {
+                        // ViewAllocations(string id)
+                        return RedirectToAction(nameof(ViewAllocations), new { id = model.EmployeeId });
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ModelState.AddModelError(string.Empty, "An error has occurred. Please try again Later");
             }
+
+            // necesito mandar de vuelta todo lo q agarro con @Model en la view
+            model.Employee = mapper.Map<EmployeeListVM>(await userManager.FindByIdAsync(model.EmployeeId));
+            model.LeaveType = mapper.Map<LeaveTypeVM>(await leaveTypeRepository.GetAsync(model.LeaveTypeId));
+
+            return View(model); // cuando falla se devuelve la data q estaba 
         }
     }
 }

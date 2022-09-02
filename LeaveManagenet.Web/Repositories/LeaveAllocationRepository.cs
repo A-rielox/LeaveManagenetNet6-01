@@ -123,5 +123,22 @@ namespace LeaveManagenet.Web.Repositories
 			// EF save q lo q se pasa es de tipo LeaveAllocation, asi que hace las entradas
 			// en esa tabla
 		}
+
+		public async Task<bool> UpdateEmployeeAllocation(LeaveAllocationEditVM model)
+		{
+			// como no tengo todos los datos en LeaveAllocationEditVM para el modelo q voy
+			// a actualizar => necesito primero obtener el resto
+			// con EF es mejor mandar todos los datos para actualizar, no na mas los q cambian
+			var leaveAllocation = await GetAsync(model.Id);
+
+			if (leaveAllocation == null)
+				return false;
+
+			leaveAllocation.Period = model.Period;
+			leaveAllocation.NumberOfDays = model.NumberOfDays;
+			await UpdateAsync(leaveAllocation);
+
+			return true;
+		}
 	}
 }
