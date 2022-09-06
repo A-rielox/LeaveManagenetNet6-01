@@ -20,10 +20,15 @@ builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireC
 // recordar q en Views/Shared/_LoginPartial esta xdefault "SignInManager<IdentityUser>" y aca
 // cambiamos a <Employee>, asi q hay q cambiar alla tb
 
+// me da acceso entre otras cosas al user q esta logeado, se puede acceder xdefault desde los 
+// controllers, pero necesito esto para injectarlo en mi repository (donde el acceso NO es x default )
+builder.Services.AddHttpContextAccessor();
+
 // cuando inyecte un ILeaveTypeRepository va a ocupar LeaveTypeRepository
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 builder.Services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
+builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 

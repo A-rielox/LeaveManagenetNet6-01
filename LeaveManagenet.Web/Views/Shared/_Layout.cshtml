@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" asp-append-version="true" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LeaveManagenet.Web.styles.css" asp-append-version="true" />
 </head>
@@ -17,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Leave Managenet Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Leave Mgmt</a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -31,11 +32,11 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="" asp-action="">Apply 4 Leave</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="LeaveRequests" asp-action="Create">Apply 4 Leave</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="" asp-action="">My Leave</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="LeaveRequests" asp-action="MyLeave">My Leave</a>
                         </li>
 
                         @if (User.IsInRole(Roles.Administrator)) @* solo admin puede ver el menu *@
@@ -82,11 +83,15 @@
     <script src="~/lib/sweetalert/sweetalert.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     @* para formatear todas las q tengan class="table" *@
     <script>
         $(function() {
             $('.table').DataTable();
+            $(".datepicker").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
         });
     </script>
 
