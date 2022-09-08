@@ -108,15 +108,13 @@ namespace LeaveManagenet.Web.Repositories
 				if (await AllocationExist(employee.Id, leaveTypeId, period))
 					continue;
 
-				var allocation = new LeaveAllocation
+				allocations.Add(new LeaveAllocation
 				{
 					EmployeeId = employee.Id,
 					LeaveTypeId = leaveTypeId,
 					Period = period,
 					NumberOfDays = leaveType.DefaultDays,
-				};
-
-				allocations.Add(allocation);
+				});
 			}
 
 			await AddRangeAsync(allocations);
