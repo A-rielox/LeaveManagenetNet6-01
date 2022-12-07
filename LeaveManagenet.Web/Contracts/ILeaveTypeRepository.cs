@@ -1,8 +1,7 @@
 ﻿using LeaveManagenet.Web.Data;
 
-namespace LeaveManagenet.Web.Contracts
+namespace LeaveManagenet.Web.Contracts;
+
+public interface ILeaveTypeRepository : IGenericRepository<LeaveType>
 {
-    public interface ILeaveTypeRepository : IGenericRepository<LeaveType>
-    {
-    }
 }

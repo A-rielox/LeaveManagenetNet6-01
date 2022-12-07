@@ -1,9 +1,8 @@
-﻿namespace LeaveManagenet.Web.Models
+﻿namespace LeaveManagenet.Web.Models;
+
+public class LeaveAllocationEditVM : LeaveAllocationVM
 {
-    public class LeaveAllocationEditVM : LeaveAllocationVM
-    {
-        public string EmployeeId { get; set; }
-        public int LeaveTypeId { get; set; }
-        public EmployeeListVM? Employee { get; set; }
-    }
+    public string EmployeeId { get; set; }
+    public int LeaveTypeId { get; set; }
+    public EmployeeListVM? Employee { get; set; }
 }

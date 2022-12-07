@@ -1,10 +1,9 @@
-﻿namespace LeaveManagenet.Web.Data
+﻿namespace LeaveManagenet.Web.Data;
+
+public class LeaveType : BaseEntity
 {
-    public class LeaveType : BaseEntity
-    {
-        public string Name { get; set; }
-        public int DefaultDays { get; set; }
-    }
+    public string Name { get; set; }
+    public int DefaultDays { get; set; }
 }
 
 //public abstract class BaseEntity
